@@ -11,3 +11,4 @@ coverage
 #IDE files
 .vscode     
 .idea
+package-lock.json

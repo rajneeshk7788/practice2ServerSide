@@ -1,20 +1,27 @@
-// 
 import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/ConnectDB.js';
+import cors from 'cors';
 //local module
-import userRgister from './routes/UseRegister.js';
+import userRouter from './routes/UseRoute.js';
+
 const app = express();
+dotenv.config();
 
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.use((req, res, next) => {
-    console.log('Hello World');
-    next();
-    }
-);
+const corsOptions = {
+  origin: process.env.FRONT_END_URL,
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
 
-app.use('/user', userRgister);
+connectDB(process.env.DATABASE_URL);
+app.use(cors(corsOptions));
 
-app.listen(3000, () => {
-    console.log('Server is running on port http://localhost:3000');
+app.use('/user', userRouter);
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
